@@ -7,6 +7,7 @@ export default function HomePage() {
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <main>
         <Home />
