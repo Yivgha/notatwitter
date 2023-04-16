@@ -7,3 +7,9 @@ export const Button = styled.button`
   background-color: inherit;
   border: transparent;
 `;
+export const ItemList = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 5px;
+`;
