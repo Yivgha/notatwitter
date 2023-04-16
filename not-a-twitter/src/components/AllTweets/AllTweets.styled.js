@@ -7,9 +7,21 @@ export const Button = styled.button`
   background-color: inherit;
   border: transparent;
 `;
-export const ItemList = styled.div`
+
+export const AllItems = styled.div`
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
+
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  margin: 5px;
+`;
+export const ItemList = styled.div`
+  @media (max-width: 767px) {
+    margin: 10px 0;
+  }
+  @media (min-width: 768px) {
+    margin: 10px 20px;
+  }
 `;
