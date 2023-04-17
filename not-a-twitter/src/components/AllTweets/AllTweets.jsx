@@ -1,7 +1,6 @@
 'use client'
 import { Title } from "../../styles/global.styled";
 import { TweetPage, AllItems, ItemList, LoadMore} from "./AllTweets.styled";
-// import Link from "next/link";
 import { useEffect, useState} from 'react';
 import OneTweet from "../OneTweet/OneTweet";
 
@@ -42,10 +41,10 @@ const handleMoreImage = () => {
         <AllItems>
                 {users?.slice(0, next)?.map((item, index) => (
                 <ItemList key={index}>
-                        {/* <Link href="/tweets/one-tweet" > */}
+                       
                         <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}
                             />
-                    {/* </Link> */}
+                    
                     </ItemList>
                 ))}                
             </AllItems>

@@ -9,7 +9,7 @@ export default function Home() {
         <Layout>
          <Title className='title'>Home</Title>
         <h2>Read all tweets{' '}
-          <Link href='/tweets/all-tweets' style={{ color: 'blue' }}>
+          <Link href='/tweets/tweets' style={{ color: 'blue' }}>
             on this page!
           </Link>
         </h2>
