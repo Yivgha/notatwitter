@@ -1,11 +1,14 @@
+'use client'
 import { Title } from "../../styles/global.styled";
 import { AllItems, ItemList} from "./AllTweets.styled";
 // import Link from "next/link";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef} from 'react';
 import OneTweet from "../OneTweet/OneTweet";
 
 export default function AllTweets() {
+    
     const [users, setUsers] = useState([]);
+
 
     const fetchUsers = async () => {
         try {
@@ -13,8 +16,11 @@ export default function AllTweets() {
                 .then((res) => res.json())
                 .then((result) => {
                     setUsers(result);
-                    console.log(result);
+                    // console.log(result);
                     console.log("fetched!");
+                    
+                        localStorage.setItem("users", JSON.stringify(result)) 
+                    
                 });
         } catch (error) {
             console.log(error);
@@ -24,9 +30,8 @@ export default function AllTweets() {
     
     useEffect(() => {
         fetchUsers();
-    }, []);
-
-
+    }, []);    
+    
     return (
         <>
             <Title>All Tweets</Title>
@@ -34,8 +39,9 @@ export default function AllTweets() {
         <AllItems>
                 {users.map((item) => (
                 <ItemList key={item.id}>
-                {/* <Link href="/tweets/one-tweet" > */}
-                      <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets} />
+                        {/* <Link href="/tweets/one-tweet" > */}
+                        <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets} followers={item.followers}
+                            />
                     {/* </Link> */}
                     </ItemList>
             ))}

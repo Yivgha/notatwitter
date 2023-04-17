@@ -1,6 +1,6 @@
 import logo from "../../images/tweet/go-it-logo.png";
 import toppic from "../../images/tweet/top-picture.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, DataText, FollowBtn, BtnText} from "./OneTweet.styled";
 
 
@@ -13,16 +13,56 @@ export default function OneTweet({ id, tweets, avatar }) {
         if (followers === 100500) {
             setActive(true);
             setFollowers(followers + 1);
+            add();
         }
         
 
         if (followers === 100501) {
             setActive(false);
             setFollowers(followers - 1);
+            minus();
         }
+   
     };
 
+    function add() {
+        const allUsers = JSON.parse(localStorage.getItem("users"));
+        const oneUser = allUsers.filter((user) => user.id === id);
+        const updUser = { ...oneUser, "followers": 100501, "active": !active }
+        allUsers.splice(oneUser, 1, updUser);
+        localStorage.setItem("users", JSON.stringify(allUsers));      
+    };
+
+    useEffect(() => {
+        add()
+    }, []);
+
+    function minus() {
+        const allUsers = JSON.parse(localStorage.getItem("users"));
+        const oneUser = allUsers.filter((user) => user.id === id);
+        const updUser = { ...oneUser, "followers": 100500, "active": active }
+        allUsers.splice(oneUser, 1, updUser);
+        localStorage.setItem("users", JSON.stringify(allUsers));      
+    };
+
+useEffect(() => {
+       minus()
+    }, []);
+    // const addFollowers = () => {
     
+    //     const folItem = {
+    //         "followers": 100501,
+    //         active: true
+    //     };
+
+    //     if (folItem !== "") {
+    //         setFollowers(folItem)
+    //     }
+    // }
+    
+
+
+
 
     return (
         <>
@@ -39,6 +79,7 @@ export default function OneTweet({ id, tweets, avatar }) {
                     {tweets} tweets
                     </DataText>
                     <DataText>
+                        
                         {followers.toLocaleString('en-US')} followers
                     </DataText>
                 </DataBox>
