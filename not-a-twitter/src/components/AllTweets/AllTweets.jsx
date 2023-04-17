@@ -35,7 +35,7 @@ export default function AllTweets() {
                 {users.map((item) => (
                 <ItemList key={item.id}>
                 {/* <Link href="/tweets/one-tweet" > */}
-                      <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets} followers={item.followers} />
+                      <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets} />
                     {/* </Link> */}
                     </ItemList>
             ))}

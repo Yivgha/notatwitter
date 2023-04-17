@@ -1,10 +1,28 @@
 import logo from "../../images/tweet/go-it-logo.png";
 import toppic from "../../images/tweet/top-picture.png";
+import { useState } from "react";
 import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, DataText, FollowBtn, BtnText} from "./OneTweet.styled";
 
 
-export default function OneTweet({ id, tweets, followers, avatar }) {
+export default function OneTweet({ id, tweets, avatar }) {
 
+    const [followers, setFollowers] = useState(100500);
+    const [active, setActive] = useState(false);
+
+    const handleClick = () => {
+        if (followers === 100500) {
+            setActive(true);
+            setFollowers(followers + 1);
+        }
+        
+
+        if (followers === 100501) {
+            setActive(false);
+            setFollowers(followers - 1);
+        }
+    };
+
+    
 
     return (
         <>
@@ -18,16 +36,17 @@ export default function OneTweet({ id, tweets, followers, avatar }) {
                 </MidLine>
                 <DataBox>
                     <DataText>
-                        {/* 777 tweets */}
                     {tweets} tweets
                     </DataText>
                     <DataText>
-                        {/* 100,500 Followers */}
-                        {followers} followers
+                        {followers.toLocaleString('en-US')} followers
                     </DataText>
                 </DataBox>
-                <FollowBtn type="button">
-                <BtnText>Follow</BtnText>
+                <FollowBtn type="button" onClick={handleClick} style={{ backgroundColor: active ?  "#5cd3a8" : "#ebd8ff"}}>
+                    <BtnText>
+                        {active ? "Following" : "Follow"}
+                    </BtnText>
+                    
                 </FollowBtn>
             </TweetBox>
         </>
