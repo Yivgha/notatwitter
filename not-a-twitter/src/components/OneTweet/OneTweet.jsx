@@ -25,7 +25,7 @@ export default function OneTweet({ id, tweets, avatar }) {
    
     };
 
-    function add() {
+    function add(id) {
         const allUsers = JSON.parse(localStorage.getItem("users"));
         const oneUser = allUsers.filter((user) => user.id === id);
         const updUser = { ...oneUser, "followers": 100501, "active": !active }
@@ -42,26 +42,12 @@ export default function OneTweet({ id, tweets, avatar }) {
         const oneUser = allUsers.filter((user) => user.id === id);
         const updUser = { ...oneUser, "followers": 100500, "active": active }
         allUsers.splice(oneUser, 1, updUser);
-        localStorage.setItem("users", JSON.stringify(allUsers));      
+        localStorage.setItem("users", JSON.stringify(allUsers));   
     };
 
 useEffect(() => {
        minus()
     }, []);
-    // const addFollowers = () => {
-    
-    //     const folItem = {
-    //         "followers": 100501,
-    //         active: true
-    //     };
-
-    //     if (folItem !== "") {
-    //         setFollowers(folItem)
-    //     }
-    // }
-    
-
-
 
 
     return (

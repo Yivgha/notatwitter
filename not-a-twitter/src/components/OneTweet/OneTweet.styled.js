@@ -75,18 +75,16 @@ export const DataText = styled.p`
 export const FollowBtn = styled.button`
   width: 196px;
   height: 50px;
-  // background: #ebd8ff;
   margin-bottom: 36px;
   box-shadow: 0px 3.43693px 3.43693px rgba(0, 0, 0, 0.25);
   border-radius: 11px;
   outline: none;
   align-self: center;
+  cursor: pointer;
 
-  // &:active,
-  // &:hover,
-  // &:focus {
-  //   background: #5cd3a8;
-  // }
+  &:hover {
+    background: #5cd3a8;
+  }
 `;
 
 export const BtnText = styled.p`

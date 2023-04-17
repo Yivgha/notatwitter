@@ -3,8 +3,7 @@ import Layout from "../Layout/Layout";
 import Link from 'next/link';
 import Image from 'next/image';
 
-const catava = require("../../../public/images/cat.jpg");
-
+const catava = require("../../../public/images/cat-min.jpg");
 export default function Home() {
     return (
         <Layout>
