@@ -13,42 +13,42 @@ export default function OneTweet({ id, tweets, avatar }) {
         if (followers === 100500) {
             setActive(true);
             setFollowers(followers + 1);
-            add();
+
+
+            const allUsers = JSON.parse(localStorage.getItem("users"));
+        for (const i of allUsers) {
+            if (i.id === id) {
+                i.followers = followers + 1;
+                i.active = true;
+                console.log(i);
+                allUsers[i] = i;
+            };
+             
+            };
+            
+            localStorage.setItem("users", JSON.stringify(allUsers))
         }
         
 
         if (followers === 100501) {
             setActive(false);
             setFollowers(followers - 1);
-            minus();
+
+        const allUsers = JSON.parse(localStorage.getItem("users"));
+        for (const i of allUsers) {
+            if (i.id === id) {
+                i.followers = followers - 1;
+                i.active = false;
+                console.log(i);
+                 allUsers[i] = i;
+            }
+           
+            }
+            
+            localStorage.setItem("users", JSON.stringify(allUsers))
         }
    
     };
-
-    function add(id) {
-        const allUsers = JSON.parse(localStorage.getItem("users"));
-        const oneUser = allUsers.filter((user) => user.id === id);
-        const updUser = { ...oneUser, "followers": 100501, "active": !active }
-        allUsers.splice(oneUser, 1, updUser);
-        localStorage.setItem("users", JSON.stringify(allUsers));      
-    };
-
-    useEffect(() => {
-        add()
-    }, []);
-
-    function minus() {
-        const allUsers = JSON.parse(localStorage.getItem("users"));
-        const oneUser = allUsers.filter((user) => user.id === id);
-        const updUser = { ...oneUser, "followers": 100500, "active": active }
-        allUsers.splice(oneUser, 1, updUser);
-        localStorage.setItem("users", JSON.stringify(allUsers));   
-    };
-
-useEffect(() => {
-       minus()
-    }, []);
-
 
     return (
         <>

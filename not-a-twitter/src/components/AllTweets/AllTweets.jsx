@@ -17,17 +17,28 @@ const handleMoreImage = () => {
     };
     
     const fetchUsers = async () => {
-        try {
-            await fetch('https://63175f2282797be77ffb0ee4.mockapi.io/users')
-                .then((res) => res.json())
+        const url = new URL('https://63175f2282797be77ffb0ee4.mockapi.io/users');
+        url.searchParams.append('page', 1);
+        url.searchParams.append('limit', 8);
+        
+            await fetch(url, {
+                method: 'GET',
+                headers: { 'content-type': 'application/json' },
+            })
+                .then(res => {
+                    if (res.ok) {
+                        return res.json();
+                    }
+                    console.log(error.message);
+                })
                 .then((result) => {
                     setUsers(result);
-                    console.log("fetched!");
+                    // console.log("fetched!");
                     localStorage.setItem("users", JSON.stringify(result));
+                }).catch(error => {
+                    console.log(error)
                 });
-        } catch (error) {
-            console.log(error);
-        }
+        
             
     };
     
@@ -41,10 +52,7 @@ const handleMoreImage = () => {
         <AllItems>
                 {users?.slice(0, next)?.map((item, index) => (
                 <ItemList key={index}>
-                       
-                        <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}
-                            />
-                    
+                        <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}/>
                     </ItemList>
                 ))}                
             </AllItems>
