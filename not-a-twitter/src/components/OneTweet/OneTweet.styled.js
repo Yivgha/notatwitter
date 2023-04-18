@@ -81,6 +81,7 @@ export const FollowBtn = styled.button`
   outline: none;
   align-self: center;
   cursor: pointer;
+  background-color: #ebd8ff;
 
   &:hover {
     background: #5cd3a8;
