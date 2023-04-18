@@ -10,7 +10,9 @@ import OneTweet from "../OneTweet/OneTweet";
 export default function AllTweets() {
     const postsPerPage = 8;
     const [users, setUsers] = useState([]);
-const [next, setNext] = useState(postsPerPage);
+    const [next, setNext] = useState(postsPerPage);
+    
+    
 
 const handleMoreImage = () => {
     setNext(next + postsPerPage);
@@ -32,9 +34,14 @@ const handleMoreImage = () => {
                     console.log(error.message);
                 })
                 .then((result) => {
+                    if (!users) {
                     setUsers(result);
-                    // console.log("fetched!");
                     localStorage.setItem("users", JSON.stringify(result));
+                    } else {
+                        const localUsers = JSON.parse(localStorage.getItem("users"))
+                    setUsers(localUsers)
+                    }
+                    
                 }).catch(error => {
                     console.log(error)
                 });
@@ -44,6 +51,7 @@ const handleMoreImage = () => {
     
     useEffect(() => {
         fetchUsers();
+        
     }, []);    
     
     return (
@@ -52,11 +60,12 @@ const handleMoreImage = () => {
         <AllItems>
                 {users?.slice(0, next)?.map((item, index) => (
                 <ItemList key={index}>
-                        <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}/>
+                        <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}
+                            followers={item.followers} active={item.active} />
                     </ItemList>
                 ))}                
             </AllItems>
-            {next < users.length && (
+            {next < users?.length && (
                     <LoadMore onClick={handleMoreImage}>Load more</LoadMore>
                 )}
        </TweetPage>
