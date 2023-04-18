@@ -4,9 +4,6 @@ import { TweetPage, AllItems, ItemList, LoadMore} from "./AllTweets.styled";
 import { useEffect, useState} from 'react';
 import OneTweet from "../OneTweet/OneTweet";
 
-
-
-
 export default function AllTweets() {
     const postsPerPage = 8;
     const [users, setUsers] = useState([]);
@@ -20,8 +17,10 @@ const handleMoreImage = () => {
     
     const fetchUsers = async () => {
         const url = new URL('https://63175f2282797be77ffb0ee4.mockapi.io/users');
-        url.searchParams.append('page', 1);
+        // url.searchParams.append('page', 1);
         url.searchParams.append('limit', 8);
+        try {
+            
         
             await fetch(url, {
                 method: 'GET',
@@ -34,17 +33,18 @@ const handleMoreImage = () => {
                     console.log(error.message);
                 })
                 .then((result) => {
-                    if (!users) {
-                    setUsers(result);
-                    localStorage.setItem("users", JSON.stringify(result));
+                    
+                    if (users !== '') {
+                        const localUsers = JSON.parse(localStorage.getItem("users"));
+                        setUsers(localUsers);
                     } else {
-                        const localUsers = JSON.parse(localStorage.getItem("users"))
-                    setUsers(localUsers)
+                        setUsers(result);
+                    localStorage.setItem("users", JSON.stringify(result));
                     }
                     
-                }).catch(error => {
-                    console.log(error)
-                });
+                })} catch (error) {
+            console.log(error);
+        }
         
             
     };
@@ -52,11 +52,12 @@ const handleMoreImage = () => {
     useEffect(() => {
         fetchUsers();
         
-    }, []);    
-    
-    return (
+    }, []);
+
+        return (
         <TweetPage>
-        <Title>All Tweets</Title>
+            <Title>Your tweets:</Title>
+          
         <AllItems>
                 {users?.slice(0, next)?.map((item, index) => (
                 <ItemList key={index}>

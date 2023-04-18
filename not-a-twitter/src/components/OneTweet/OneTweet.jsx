@@ -33,8 +33,8 @@ export default function OneTweet({ id, tweets, avatar, followers, active}) {
     return (
         <>
             <TweetBox key={id}>
-                <LogoImg src={logo} alt="goit logo" width={76} height={22}/>
-                <TopImg src={toppic} alt="top picture" width={308} height={168} />
+                <LogoImg src={logo} alt="goit logo" width={76} height={22} priority={true}/>
+                <TopImg src={toppic} alt="top picture" width={308} height={168} priority={true} />
                 <MidLine>
                     <AvatarBox>
                         <TweetAvatar src={avatar} alt="user avatar" width={62} height={62}/>
