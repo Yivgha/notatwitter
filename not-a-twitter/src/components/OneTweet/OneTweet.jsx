@@ -1,3 +1,4 @@
+import { useState } from "react";
 import logo from "../../images/tweet/go-it-logo.png";
 import toppic from "../../images/tweet/top-picture.png";
 import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, DataText, FollowBtn, BtnText} from "./OneTweet.styled";
@@ -5,30 +6,50 @@ import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, D
 
 export default function OneTweet({ id, tweets, avatar, followers, active}) {
 
+    // const [color, setColor] = useState(false);
+    // const [myFollowers, setMyFollowers] = useState('')
+
+    const green = "#5cd3a8";
+    const puple = "#ebd8ff";
+    const [buttonColor, setButtonColor] = useState(puple);
+    const [btnText, setBtnText] = useState("Follow")
+    
+    function handleColorChange() {
+    const newColor = buttonColor === puple ? green : puple;
+    setButtonColor(newColor);
+    };
+
+    function handleTextChange() {
+        const newBtnText =  btnText === "Follow" ? "Following" : "Follow";
+        setBtnText( newBtnText)
+    };
+
     const handleClick = () => {
         
         const allUsers = JSON.parse(localStorage.getItem("users"));
-
+    
         for (const i of allUsers) {
             if (i.id === id) {
 
                 if (i.active === false) {
-                    i.followers = followers + 1;
+                    i.followers = 100501;
                     i.active = true;
                     console.log(i);
                     localStorage.setItem("users", JSON.stringify(allUsers));
                 }
 
                 else if (i.active === true) {
-                    i.followers = followers - 1;
+                    i.followers = 100500;
                     i.active = false;
                     console.log(i);
                     localStorage.setItem("users", JSON.stringify(allUsers));
                 };
+                handleColorChange();
+                handleTextChange();
+                localStorage.setItem("users", JSON.stringify(allUsers))
             }
         };
     };
-
 
     return (
         <>
@@ -45,15 +66,16 @@ export default function OneTweet({ id, tweets, avatar, followers, active}) {
                     {tweets} tweets
                     </DataText>
                     <DataText id="dataText">
-                        
                         {followers.toLocaleString('en-US')} followers
                     </DataText>
                 </DataBox>
-                <FollowBtn type="button" onClick={handleClick} id="followBtn"
-                    style={{ backgroundColor: active ? "#5cd3a8" : "#ebd8ff" }}
+                <FollowBtn type="button" onClick={handleClick} id="followBtn" 
+                    style={{ backgroundColor: buttonColor }}
+        color={buttonColor}
                 >
                     <BtnText id="btnText"> 
-                        {active ? "Following" : "Follow"}
+                        {btnText}
+                        
                     </BtnText>
                     
                 </FollowBtn>
