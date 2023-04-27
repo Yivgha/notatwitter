@@ -7,22 +7,30 @@ import localUsers from "../../JSON/users.json" assert {type: "json"};
 
 export default function AllTweets() {
     const postsPerPage = 8;
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState(localUsers || JSON.parse(localStorage.getItem("users")));
     const [next, setNext] = useState(postsPerPage);
+    
 
 const handleMoreImage = () => {
     setNext(next + postsPerPage);
     };    
+
+    const userHandle = () => {
+        const savedValue = JSON.parse(localStorage.getItem("users"));
+        if (savedValue != localUsers) {
+            setUsers(savedValue);
+            localStorage.setItem("users", JSON.stringify(savedValue));
+        }        
+    }
    
     useEffect(() => {
-        if (users) {
-            JSON.parse(localStorage.getItem("users"));
-        } setUsers(localUsers);
-        localStorage.setItem("users", JSON.stringify(localUsers)); 
+        localStorage.setItem("users", JSON.stringify(localUsers));
     }, []);
+    useEffect(() => {
+        userHandle();
+    }, [])
 
     
-
         return (
         <TweetPage>
             <Title>Your tweets:</Title>

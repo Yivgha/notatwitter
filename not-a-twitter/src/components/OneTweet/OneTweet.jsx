@@ -1,55 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../images/tweet/go-it-logo.png";
 import toppic from "../../images/tweet/top-picture.png";
 import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, DataText, FollowBtn, BtnText} from "./OneTweet.styled";
 
 
-export default function OneTweet({ id, tweets, avatar, followers, active}) {
-
-    // const [color, setColor] = useState(false);
-    // const [myFollowers, setMyFollowers] = useState('')
-
-    const green = "#5cd3a8";
-    const puple = "#ebd8ff";
-    const [buttonColor, setButtonColor] = useState(puple);
-    const [btnText, setBtnText] = useState("Follow")
+export default function OneTweet({ id, tweets, avatar }) {
     
-    function handleColorChange() {
-    const newColor = buttonColor === puple ? green : puple;
-    setButtonColor(newColor);
-    };
+     
+    
+    
+    // const savedFollowers = JSON.parse(localStorage.getItem("followers"));
+    // const savedActive = JSON.parse(localStorage.getItem("active"));
 
-    function handleTextChange() {
-        const newBtnText =  btnText === "Follow" ? "Following" : "Follow";
-        setBtnText( newBtnText)
-    };
+    const [followers, setFollowers] = useState("100500");
+    const [active, setActive] = useState(false);
 
     const handleClick = () => {
-        
-        const allUsers = JSON.parse(localStorage.getItem("users"));
-    
-        for (const i of allUsers) {
-            if (i.id === id) {
-
-                if (i.active === false) {
-                    i.followers = 100501;
-                    i.active = true;
-                    console.log(i);
-                    localStorage.setItem("users", JSON.stringify(allUsers));
-                }
-
-                else if (i.active === true) {
-                    i.followers = 100500;
-                    i.active = false;
-                    console.log(i);
-                    localStorage.setItem("users", JSON.stringify(allUsers));
+        const savedValue = JSON.parse(localStorage.getItem("users"));
+        savedValue.filter(item => {
+            if (item.id === id) {
+                if (active === false) {
+                    setFollowers("100501");
+                    setActive(true);
+                    item.active = true;
+                    item.followers = "100501";
+                    localStorage.setItem("followers", JSON.stringify(followers));
+                    localStorage.setItem("active", JSON.stringify(active));
+                    localStorage.setItem("users", JSON.stringify(savedValue));
                 };
-                handleColorChange();
-                handleTextChange();
-                localStorage.setItem("users", JSON.stringify(allUsers))
-            }
-        };
+                if (active === true) {
+                    setActive(false);
+                    setFollowers("100500");
+                    item.active = false;
+                    item.followers = "100500";
+                    localStorage.setItem("followers", JSON.stringify(followers));
+                    localStorage.setItem("active", JSON.stringify(active));
+                    localStorage.setItem("users", JSON.stringify(savedValue));
+                };
+                
+                
+            };
+            
+        });
     };
+
+   useEffect(() => {
+       JSON.parse(localStorage.getItem("followers"));
+       JSON.parse(localStorage.getItem("active"));
+      }, []);
 
     return (
         <>
@@ -65,16 +63,15 @@ export default function OneTweet({ id, tweets, avatar, followers, active}) {
                     <DataText>
                     {tweets} tweets
                     </DataText>
-                    <DataText id="dataText">
-                        {followers.toLocaleString('en-US')} followers
+                    <DataText>
+                        {followers?.toLocaleString('en-US')} followers
                     </DataText>
                 </DataBox>
-                <FollowBtn type="button" onClick={handleClick} id="followBtn" 
-                    style={{ backgroundColor: buttonColor }}
-        color={buttonColor}
+                <FollowBtn type="button" onClick={handleClick}
+                    style={{ backgroundColor: active ? "#5cd3a8" : "#ebd8ff" }}
                 >
-                    <BtnText id="btnText"> 
-                        {btnText}
+                    <BtnText> 
+                        {active ? "Following" : "Follow"}
                         
                     </BtnText>
                     
