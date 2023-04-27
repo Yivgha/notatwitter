@@ -6,29 +6,31 @@ import OneTweet from "../OneTweet/OneTweet";
 import localUsers from "../../JSON/users.json" assert {type: "json"};
 
 export default function AllTweets() {
-    const postsPerPage = 8;
-    const [users, setUsers] = useState(localUsers || JSON.parse(localStorage.getItem("users")));
-    const [next, setNext] = useState(postsPerPage);
     
+    const [users, setUsers] = useState([]);
 
-const handleMoreImage = () => {
+    const postsPerPage = 8;
+    const [next, setNext] = useState(postsPerPage);
+    const handleMoreImage = () => {
     setNext(next + postsPerPage);
-    };    
+    };  
+    
+ useEffect(() => {
+        localStorage.setItem("users", JSON.stringify(localUsers));
+ }, []);
+     
 
     const userHandle = () => {
         const savedValue = JSON.parse(localStorage.getItem("users"));
         if (savedValue != localUsers) {
             setUsers(savedValue);
             localStorage.setItem("users", JSON.stringify(savedValue));
-        }        
-    }
+        };
+    };
    
     useEffect(() => {
-        localStorage.setItem("users", JSON.stringify(localUsers));
-    }, []);
-    useEffect(() => {
         userHandle();
-    }, [])
+    }, []);
 
     
         return (

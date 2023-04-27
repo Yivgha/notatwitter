@@ -5,13 +5,6 @@ import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, D
 
 
 export default function OneTweet({ id, tweets, avatar }) {
-    
-     
-    
-    
-    // const savedFollowers = JSON.parse(localStorage.getItem("followers"));
-    // const savedActive = JSON.parse(localStorage.getItem("active"));
-
     const [followers, setFollowers] = useState("100500");
     const [active, setActive] = useState(false);
 
@@ -22,32 +15,23 @@ export default function OneTweet({ id, tweets, avatar }) {
                 if (active === false) {
                     setFollowers("100501");
                     setActive(true);
-                    item.active = true;
-                    item.followers = "100501";
-                    localStorage.setItem("followers", JSON.stringify(followers));
-                    localStorage.setItem("active", JSON.stringify(active));
+                   item.active = true;
+                   item.followers = "100501";
                     localStorage.setItem("users", JSON.stringify(savedValue));
+                    console.log(item);
                 };
                 if (active === true) {
                     setActive(false);
                     setFollowers("100500");
                     item.active = false;
                     item.followers = "100500";
-                    localStorage.setItem("followers", JSON.stringify(followers));
-                    localStorage.setItem("active", JSON.stringify(active));
                     localStorage.setItem("users", JSON.stringify(savedValue));
+                    console.log(item);
                 };
-                
-                
             };
             
         });
     };
-
-   useEffect(() => {
-       JSON.parse(localStorage.getItem("followers"));
-       JSON.parse(localStorage.getItem("active"));
-      }, []);
 
     return (
         <>
