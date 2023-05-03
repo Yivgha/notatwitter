@@ -60,8 +60,8 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
 
                    item.active = true;
                     item.followers = "100501";
-setActive(true);
-            setFollowers("100501");
+            setActive(true);
+            setFollowers(("100501").toLocaleString('en-US'));
                      updFetchIncrease();
                     localStorage.setItem("users", JSON.stringify(savedValue));
                    
@@ -72,7 +72,7 @@ setActive(true);
                     item.active = false;
                     item.followers = "100500";
                     setActive(false);
-                    setFollowers("100500");
+                    setFollowers(("100500").toLocaleString('en-US'));
                     updFetchDecrease();
                     localStorage.setItem("users", JSON.stringify(savedValue));
                     
@@ -98,7 +98,7 @@ setActive(true);
                     {tweets} tweets
                     </DataText>
                     <DataText>
-                        {myFollowers ? myFollowers?.toLocaleString('en-US') : followers} followers
+                        {myFollowers ? parseInt(myFollowers)?.toLocaleString('en-US') : parseInt(followers)?.toLocaleString('en-US')} followers
                     </DataText>
                 </DataBox>
                 <FollowBtn type="button" onClick={handleClick}
