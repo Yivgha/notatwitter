@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "../../images/tweet/go-it-logo.png";
 import toppic from "../../images/tweet/top-picture.png";
 import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, DataText, FollowBtn, BtnText} from "./OneTweet.styled";
@@ -10,8 +10,10 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
 
     const savedValue = JSON.parse(localStorage.getItem("users"));
 
+    const url = new URL('https://63175f2282797be77ffb0ee4.mockapi.io/users');
+
     const updFetchIncrease = async () => {
-        await fetch(`https://63175f2282797be77ffb0ee4.mockapi.io/users/${id}`, {
+        await fetch(`${url}/${id}`, {
             method: 'PUT', // or PATCH
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ active: true,  followers: "100501" })
@@ -31,7 +33,7 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
     };
 
     const updFetchDecrease = async () => {
-       await  fetch(`https://63175f2282797be77ffb0ee4.mockapi.io/users/${id}`, {
+       await  fetch(`${url}/${id}`, {
             method: 'PUT', // or PATCH
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ active: false, followers: "100500"})
