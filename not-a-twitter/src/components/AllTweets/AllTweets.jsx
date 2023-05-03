@@ -3,7 +3,7 @@ import { Title } from "../../styles/global.styled";
 import { TweetPage, AllItems, ItemList, LoadMore} from "./AllTweets.styled";
 import { useEffect, useState} from 'react';
 import OneTweet from "../OneTweet/OneTweet";
-import localUsers from "../../JSON/users.json" assert {type: "json"};
+// import localUsers from "../../JSON/users.json" assert {type: "json"};
 
 export default function AllTweets() {
     
@@ -14,22 +14,27 @@ export default function AllTweets() {
     const handleMoreImage = () => {
     setNext(next + postsPerPage);
     };  
-    
- useEffect(() => {
-        localStorage.setItem("users", JSON.stringify(localUsers));
- }, []);
-     
 
-    const userHandle = () => {
-        const savedValue = JSON.parse(localStorage.getItem("users"));
-        if (savedValue != localUsers) {
-            setUsers(savedValue);
-            localStorage.setItem("users", JSON.stringify(savedValue));
-        };
+    const userHandle = async() => {
+        await fetch('https://63175f2282797be77ffb0ee4.mockapi.io/users', {
+  method: 'GET',
+  headers: {'content-type':'application/json'},
+}).then(res => {
+  if (res.ok) {
+      return res.json();
+  }
+  console.log(error);
+}).then(tweets => {
+    setUsers(tweets);
+    localStorage.setItem("users", JSON.stringify(tweets))
+}).catch(error => {
+  console.log(error);
+})
     };
    
     useEffect(() => {
         userHandle();
+        JSON.parse(localStorage.getItem("users"));
     }, []);
 
     

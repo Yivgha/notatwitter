@@ -4,28 +4,76 @@ import toppic from "../../images/tweet/top-picture.png";
 import { TweetBox, MidLine, LogoImg, TopImg, AvatarBox,  TweetAvatar, DataBox, DataText, FollowBtn, BtnText} from "./OneTweet.styled";
 
 
-export default function OneTweet({ id, tweets, avatar }) {
-    const [followers, setFollowers] = useState("100500");
-    const [active, setActive] = useState(false);
+export default function OneTweet({ id, tweets, avatar, followers, active }) {
+    const [myFollowers, setFollowers] = useState(() => { if (!followers && active === false) {return "100500"} else if(!followers && active === true){return "100501"} followers});
+    const [myActive, setActive] = useState(active);
+
+    const savedValue = JSON.parse(localStorage.getItem("users"));
+
+    const updFetchIncrease = async () => {
+        await fetch(`https://63175f2282797be77ffb0ee4.mockapi.io/users/${id}`, {
+            method: 'PUT', // or PATCH
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ active: true,  followers: "100501" })
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            console.log(error);
+        }).then(el => {
+            
+         
+            localStorage.setItem("users", JSON.stringify(savedValue));
+            console.log("increased");
+        }).catch(error => {
+            console.log(error);
+        })
+    };
+
+    const updFetchDecrease = async () => {
+       await  fetch(`https://63175f2282797be77ffb0ee4.mockapi.io/users/${id}`, {
+            method: 'PUT', // or PATCH
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ active: false, followers: "100500"})
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            console.log(error);
+        }).then(el => {
+ 
+           
+            localStorage.setItem("users", JSON.stringify(savedValue));
+            console.log("decreased");
+        }).catch(error => {
+           console.log(error);
+        })
+    }
 
     const handleClick = () => {
-        const savedValue = JSON.parse(localStorage.getItem("users"));
         savedValue.filter(item => {
             if (item.id === id) {
-                if (active === false) {
-                    setFollowers("100501");
-                    setActive(true);
+                
+                if (myActive === false) {
+
                    item.active = true;
-                   item.followers = "100501";
+                    item.followers = "100501";
+setActive(true);
+            setFollowers("100501");
+                     updFetchIncrease();
                     localStorage.setItem("users", JSON.stringify(savedValue));
+                   
                     console.log(item);
                 };
-                if (active === true) {
-                    setActive(false);
-                    setFollowers("100500");
+                if (myActive === true) {
+
                     item.active = false;
                     item.followers = "100500";
+                    setActive(false);
+                    setFollowers("100500");
+                    updFetchDecrease();
                     localStorage.setItem("users", JSON.stringify(savedValue));
+                    
                     console.log(item);
                 };
             };
@@ -48,14 +96,14 @@ export default function OneTweet({ id, tweets, avatar }) {
                     {tweets} tweets
                     </DataText>
                     <DataText>
-                        {followers?.toLocaleString('en-US')} followers
+                        {myFollowers ? myFollowers?.toLocaleString('en-US') : followers} followers
                     </DataText>
                 </DataBox>
                 <FollowBtn type="button" onClick={handleClick}
-                    style={{ backgroundColor: active ? "#5cd3a8" : "#ebd8ff" }}
+                    style={{ backgroundColor: myActive ? "#5cd3a8" : "#ebd8ff" }}
                 >
                     <BtnText> 
-                        {active ? "Following" : "Follow"}
+                        {myActive ? "Following" : "Follow"}
                         
                     </BtnText>
                     
