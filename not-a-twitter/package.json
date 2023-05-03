@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.10.6",
+    "@netlify/next": "^1.4.5",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "fs": "^0.0.1-security",
