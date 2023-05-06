@@ -14,7 +14,7 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
 
     const updFetchIncrease = async () => {
         await fetch(`${url}/${id}`, {
-            method: 'PUT', // or PATCH
+            method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ active: true,  followers: "100501" })
         }).then(res => {
@@ -23,10 +23,7 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
             }
             console.log(error);
         }).then(el => {
-            
-         
             localStorage.setItem("users", JSON.stringify(savedValue));
-            console.log("increased");
         }).catch(error => {
             console.log(error);
         })
@@ -34,7 +31,7 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
 
     const updFetchDecrease = async () => {
        await  fetch(`${url}/${id}`, {
-            method: 'PUT', // or PATCH
+            method: 'PUT',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ active: false, followers: "100500"})
         }).then(res => {
@@ -43,10 +40,7 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
             }
             console.log(error);
         }).then(el => {
- 
-           
             localStorage.setItem("users", JSON.stringify(savedValue));
-            console.log("decreased");
         }).catch(error => {
            console.log(error);
         })
@@ -55,31 +49,23 @@ export default function OneTweet({ id, tweets, avatar, followers, active }) {
     const handleClick = () => {
         savedValue.filter(item => {
             if (item.id === id) {
-                
                 if (myActive === false) {
-
                    item.active = true;
                     item.followers = "100501";
-            setActive(true);
-            setFollowers(("100501").toLocaleString('en-US'));
-                     updFetchIncrease();
+                    setActive(true);
+                    setFollowers(("100501").toLocaleString('en-US'));
+                    updFetchIncrease();
                     localStorage.setItem("users", JSON.stringify(savedValue));
-                   
-                    console.log(item);
                 };
                 if (myActive === true) {
-
                     item.active = false;
                     item.followers = "100500";
                     setActive(false);
                     setFollowers(("100500").toLocaleString('en-US'));
                     updFetchDecrease();
                     localStorage.setItem("users", JSON.stringify(savedValue));
-                    
-                    console.log(item);
                 };
             };
-            
         });
     };
 

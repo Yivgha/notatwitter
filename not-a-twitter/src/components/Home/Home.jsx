@@ -9,7 +9,7 @@ export default function Home() {
         <Layout>
          <Title>Welcome Home!</Title>
         <BoxText>Read all tweets{' '}
-          <HomeLink href='/tweets/tweets'>
+          <HomeLink href='/tweets'>
             on this page
             </HomeLink>
           !
