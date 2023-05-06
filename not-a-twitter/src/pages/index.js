@@ -15,7 +15,7 @@ const HomePage = ({ message }) => {
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
-        <link rel='icon' href='/favicon.ico' />
+        <link rel='icon' href='../../public/favicon.ico' />
       </Head>
       <main>
         <Home />
