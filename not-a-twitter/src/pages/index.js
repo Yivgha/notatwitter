@@ -2,7 +2,15 @@ import Head from 'next/head';
 import Layout, { siteTitle } from '../components/Layout/Layout';
 import Home from '../components/Home/Home';
 
-export default function HomePage() {
+export async function getStaticProps() {
+  return {
+    props: {
+      message: 'This is a static page',
+    },
+  };
+}
+
+const HomePage = ({ message }) => {
   return (
     <Layout home>
       <Head>
@@ -14,4 +22,6 @@ export default function HomePage() {
       </main>
     </Layout>
   );
-}
+};
+
+export default HomePage;
