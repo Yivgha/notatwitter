@@ -2,15 +2,7 @@ import Head from 'next/head';
 import Layout, { siteTitle } from '../components/Layout/Layout';
 import Home from '../components/Home/Home';
 
-export async function getStaticProps() {
-  return {
-    props: {
-      message: 'This is a static page',
-    },
-  };
-}
-
-const HomePage = ({ message }) => {
+const HomePage = () => {
   return (
     <Layout home>
       <Head>

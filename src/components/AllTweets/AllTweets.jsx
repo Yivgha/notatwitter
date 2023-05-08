@@ -42,6 +42,7 @@ export default function AllTweets() {
     useEffect(() => {
         userHandle();
         JSON.parse(localStorage.getItem("users"));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     

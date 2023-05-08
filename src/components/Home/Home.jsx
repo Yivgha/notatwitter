@@ -2,7 +2,7 @@ import Layout from "../Layout/Layout";
 import { Title } from "../../styles/global.styled";
 import { BoxText, HomeImg, HomeLink } from "./Home.styled";
 
-const catava = require("../../../public/images/cat-min.jpg");
+const catava = require("../../../public/cat.jpg");
 
 export default function Home() {
     return (
