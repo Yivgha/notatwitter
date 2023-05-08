@@ -1,6 +1,6 @@
-import AllTweets from '../components/AllTweets/AllTweets';
-import Layout, { siteTitle } from '../components/Layout/Layout';
-import { Button } from '../components/AllTweets/AllTweets.styled';
+import AllTweets from '../../components/AllTweets/AllTweets';
+import Layout, { siteTitle } from '../../components/Layout/Layout';
+import { Button } from '../../components/AllTweets/AllTweets.styled';
 import Link from 'next/link';
 import Head from 'next/head';
 
