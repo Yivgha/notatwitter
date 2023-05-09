@@ -6,9 +6,15 @@ import OneTweet from "../OneTweet/OneTweet";
 // import Filter from "../Filter/Filter";
 
 export default function AllTweets() {
+
+    const selectedOptions = [
+        { label: "Show all", value: 0 },
+        { label: "Follow", value: 1 },
+        { label: "Following", value: 2 },
+    ];
     
     const [users, setUsers] = useState([]);
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(selectedOptions[0]);
     
     const postsPerPage = 4;
     const limitPerPage = 12;
@@ -22,31 +28,20 @@ export default function AllTweets() {
 
      const handleFilterInput = (event) => {
         const value = event.target.value;
-        setSelected(value);
-        if (value === "Following") {
-            selectedTrue();
-            console.log("sel true");
-        }
-        if (value === "Follow") {
-            selectedFalse();
-            console.log("sel false");
-        }
-         return userHandle();
+         setSelected(value);
     };
 
-    const selectedTrue = async () => {
-         const filter = users.filter(id => id.active === true);
-         setUsers(filter);
-    };
+    const filteredUsers = users.filter((filEl) => {
+        console.log(selected.label);
+        if (selected.label === "Follow") {
+            return filEl.followers === "100500"            
+        } else if (selected.label === "Following") {
+            return filEl.followers === "100501";
+        } else {
+            return filEl;
+        }
+    })
 
-     const selectedFalse = async () => {
-         const filter = users.filter(id => id.active === false);
-         setUsers(filter);
-    };
-    
-     useEffect(() => {
-         console.log('SELECTED:', selected);
-     }, [selected]);
 
     const url = new URL('https://63175f2282797be77ffb0ee4.mockapi.io/users');
      url.searchParams.append("page", page);
@@ -78,24 +73,35 @@ export default function AllTweets() {
         return (
         <TweetPage>
             <Title>Your tweets:</Title>
-                {/* <Filter selected={selected} onChange={handleFilterInput}/>  */}
+               
                 <div>
-                <h2>Filter cards</h2>
-                 <div>
-                    <select id="filter" selected={selected} onChange={handleFilterInput} style={{width: "200px", height: "50px"}}>
-                        <option value="">Show all</option>
-                        <option value="Follow">Follow</option>
-                        <option value="Following">Following</option>
+                    <h2>Filter cards</h2>
+                    <div>
+                    <select id="filter" value={selected} onChange={handleFilterInput} style={{width: "200px", height: "50px"}}>
+                            {selectedOptions.map(tag => (
+                                <option key={tag.value} value={tag.value}>{tag.label}</option>
+                            ))}
                     </select>
-               </div>
-            </div>
-        <AllItems>
-                {users?.slice(0, next)?.map((item, index) => (
+                    </div>
+                </div>
+                
+                <AllItems>
+                    {filteredUsers?.length > 0 ? 
+                    (filteredUsers?.slice(0, next).map((item, index) => (
                 <ItemList key={index}>
                         <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}
                             followers={item.followers} active={item.active} />
                     </ItemList>
-                ))}
+                    ))) :
+                        <h1>No tweets found</h1>
+                }
+
+                {/* {users?.slice(0, next).map((item, index) => (
+                <ItemList key={index}>
+                        <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}
+                            followers={item.followers} active={item.active} />
+                    </ItemList>
+                ))} */}
                     
             </AllItems>
             {next < users?.length && (
