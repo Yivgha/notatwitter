@@ -1,5 +1,5 @@
 'use client'
-import { useMemo } from "react";
+// import { useMemo } from "react";
 import { Title } from "../../styles/global.styled";
 import { TweetPage, AllItems, ItemList, LoadMore} from "./AllTweets.styled";
 import { useEffect, useState} from 'react';
