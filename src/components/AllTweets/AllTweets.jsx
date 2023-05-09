@@ -1,4 +1,5 @@
 'use client'
+import { useMemo } from "react";
 import { Title } from "../../styles/global.styled";
 import { TweetPage, AllItems, ItemList, LoadMore} from "./AllTweets.styled";
 import { useEffect, useState} from 'react';
@@ -8,14 +9,16 @@ import OneTweet from "../OneTweet/OneTweet";
 export default function AllTweets() {
 
     const selectedOptions = [
-        { label: "Show all", value: 0 },
-        { label: "Follow", value: 1 },
-        { label: "Following", value: 2 },
+        { label: "Show all", value: "" },
+        { label: "Follow", value: "Follow", followers: "100500" },
+        { label: "Following", value: "Following", followers: "100501" },
     ];
     
     const [users, setUsers] = useState([]);
     const [selected, setSelected] = useState(selectedOptions[0]);
+    const [selectedCategory, setSelectedCategory] = useState();
     
+
     const postsPerPage = 4;
     const limitPerPage = 12;
     const [next, setNext] = useState(postsPerPage);
@@ -26,23 +29,22 @@ export default function AllTweets() {
         setPage(page + 1);
     };  
 
-     const handleFilterInput = (event) => {
-        const value = event.target.value;
-         setSelected(value);
-    };
+function getFilteredList() {
+    if (!selectedCategory) {
+      return users;
+    }
+    return users.filter((item) => item.followers === selectedCategory);
+  }
+    var filteredList = useMemo(getFilteredList, [selectedCategory, users]);
 
-    const filteredUsers = users.filter((filEl) => {
-        console.log(selected.label);
-        if (selected.label === "Follow") {
-            return filEl.followers === "100500"            
-        } else if (selected.label === "Following") {
-            return filEl.followers === "100501";
-        } else {
-            return filEl;
-        }
-    })
+    // const filteredList = users.filter((item) => item.followers === selectedCategory);
 
+    function handleCategoryChange(event) {
+    setSelected(event.target.value);
+    setSelectedCategory(event.target.value);
+  }
 
+    
     const url = new URL('https://63175f2282797be77ffb0ee4.mockapi.io/users');
      url.searchParams.append("page", page);
     url.searchParams.append('limit', limitPerPage);
@@ -77,17 +79,20 @@ export default function AllTweets() {
                 <div>
                     <h2>Filter cards</h2>
                     <div>
-                    <select id="filter" value={selected} onChange={handleFilterInput} style={{width: "200px", height: "50px"}}>
+                        <select id="filter" value={selected}
+                            name="category-list"
+                            onChange={handleCategoryChange}
+                            style={{ width: "200px", height: "50px" }}>
                             {selectedOptions.map(tag => (
-                                <option key={tag.value} value={tag.value}>{tag.label}</option>
+                                <option key={tag.value} value={tag.followers}>{tag.label}</option>
                             ))}
                     </select>
                     </div>
                 </div>
                 
                 <AllItems>
-                    {filteredUsers?.length > 0 ? 
-                    (filteredUsers?.slice(0, next).map((item, index) => (
+                    {filteredList?.length > 0 ? 
+                    (filteredList?.slice(0, next).map((item, index) => (
                 <ItemList key={index}>
                         <OneTweet id={item.id} avatar={item.avatar} tweets={item.tweets}
                             followers={item.followers} active={item.active} />
@@ -104,9 +109,9 @@ export default function AllTweets() {
                 ))} */}
                     
             </AllItems>
-            {next < users?.length && (
+             {filteredList?.length > 0 ? (next < users?.length && (
                     <LoadMore onClick={handleMoreImage}>Load more</LoadMore>
-                )}
+                )) : null}
        </TweetPage>
     )
 };
