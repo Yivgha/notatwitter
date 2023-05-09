@@ -4,12 +4,11 @@ import { Title } from "../../styles/global.styled";
 import { TweetPage, AllItems, ItemList, LoadMore} from "./AllTweets.styled";
 import { useEffect, useState} from 'react';
 import OneTweet from "../OneTweet/OneTweet";
-// import Filter from "../Filter/Filter";
 
 export default function AllTweets() {
 
     const selectedOptions = [
-        { label: "Show all", value: "" },
+        { label: "Show all", value: "", followers: "" },
         { label: "Follow", value: "Follow", followers: "100500" },
         { label: "Following", value: "Following", followers: "100501" },
     ];
@@ -29,15 +28,22 @@ export default function AllTweets() {
         setPage(page + 1);
     };  
 
-function getFilteredList() {
-    if (!selectedCategory) {
-      return users;
-    }
-    return users.filter((item) => item.followers === selectedCategory);
-  }
-    var filteredList = useMemo(getFilteredList, [selectedCategory, users]);
+// function getFilteredList() {
+//     if (!selectedCategory) {
+//      return users;
+//     }
+//     return users.filter((item) => item.followers === selectedCategory);
+//   }
+    // var filteredList = useMemo(getFilteredList, [selectedCategory, users]);
 
-    // const filteredList = users.filter((item) => item.followers === selectedCategory);
+    const filteredList = users.filter((item) => {
+        if (!selectedCategory || selectedCategory === "") {
+            return users
+        } else {
+return item.followers === selectedCategory
+        }
+        
+    });
 
     function handleCategoryChange(event) {
     setSelected(event.target.value);
